@@ -1,8 +1,10 @@
-= h5-min
+# h5-min
 
-Description goes here.
+This is a trivial minifier for HTML5 documents built for my own use with [Read
+Ruby](http://github.com/runpaint/read-ruby). It is not intended to be a
+general purpose tool.
 
-== Note on Patches/Pull Requests
+## Note on Patches/Pull Requests
  
 * Fork the project.
 * Make your feature addition or bug fix.
@@ -12,6 +14,6 @@ Description goes here.
   (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
 * Send me a pull request. Bonus points for topic branches.
 
-== Copyright
+## Copyright
 
 Copyright (c) 2010 Run Paint Run Run. See LICENSE for details.
