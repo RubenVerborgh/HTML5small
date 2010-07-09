@@ -171,7 +171,7 @@ module HTML5
       return if name == 'meta' && attrs.key?('http-equiv')
       # Will fail for empty attributes
       attrs = attrs.map do |name, value|
-        name + '=' + format_attribute_value(value)
+        [normalise_attribute_name(name), format_attribute_value(value)].join ?=
       end
       self.in_pre = true if PRE_TAGS.include?(name)
       buf << "<#{name}" + (attrs.empty? ? '' : ' ' + attrs.join(' ')) + ">"
@@ -216,6 +216,10 @@ module HTML5
     def format_attribute_value(value)
       value = value.gsub(/"/, '&quot;')
       value_needs_quoting?(value) ? %Q{"#{value}"} : value
+    end
+
+    def normalise_attribute_name name
+      name.downcase.to_sym
     end
 
     def normalise_tag_name tag
