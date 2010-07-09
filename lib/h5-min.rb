@@ -199,7 +199,7 @@ module HTML5
 
     private
     def format_attribute_value(value)
-      value = value.gsub(/"/, '&quot;')
+      value = format_entities value
       value_needs_quoting?(value) ? %Q{"#{value}"} : value
     end
 
@@ -221,8 +221,11 @@ module HTML5
     def normalise_tag_name tag
       tag.downcase.to_sym
     end
-
-    def value_needs_quoting?(value)
+    
+    # Can the given value be legally unquoted as per
+    # http://www.whatwg.org/specs/web-apps/current-work/multipage/syntax.html#attributes-0
+    # ?
+    def value_needs_quoting? value
       # must not contain any literal space characters
       return true if value =~ /[[:space:]]/
       # must not contain any """, "'", ">", "=", characters
