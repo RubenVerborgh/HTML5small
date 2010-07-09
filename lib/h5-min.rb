@@ -216,8 +216,6 @@ module HTML5
       end.map do |name, value|
         "#{name}=#{value}"
       end.join(' ').insert(0, ' ')
-
-      #return if name == 'meta' && attrs.key?('http-equiv')
     end
 
     def normalise_tag_name tag

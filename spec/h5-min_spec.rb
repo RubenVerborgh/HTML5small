@@ -16,7 +16,8 @@ end
    dl: "removes optional elements in definition lists",
    normalise_tag_name: "normalises case of element names",
    normalise_attribute_name: "normalises case of attribute names",
-   entities_no_expand: "doesn't decode significant HTML entities",
+   entities_no_expand: "doesn't decode unsafe HTML entities",
+   entities_expand: "decodes safe HTML entities",
    sort_attributes: "sorts attribute names alphabetically",
  }
 

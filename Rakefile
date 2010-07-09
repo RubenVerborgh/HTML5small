@@ -10,6 +10,7 @@ begin
     gem.email = "runrun@runpaint.org"
     gem.homepage = "http://github.com/runpaint/h5-min"
     gem.authors = ["Run Paint Run Run"]
+    gem.add_dependency "htmlentities", ">= 4.1.0"
     gem.add_development_dependency "rspec", ">= 1.2.9"
     gem.add_development_dependency "yard", ">= 0"
     gem.executables << 'h5-min'
