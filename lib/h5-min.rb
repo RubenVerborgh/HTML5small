@@ -1,9 +1,8 @@
 require 'nokogiri'
-require 'cgi'
+require 'htmlentities'
 
 module HTML5
   class Minifier < Nokogiri::XML::SAX::Document
-    attr_accessor :in_pre, :buf
 
     # Elements in which whitespace is significant, so can't be normalised
     PRE_TAGS = [:pre]
@@ -153,9 +152,11 @@ module HTML5
       html
     end
 
+    attr_accessor :in_pre, :buf, :text_node
+
     def initialize
       @in_pre = false
-      @buf = ''
+      @buf, @text_node = '', ''
       @stack = []
     end
 
@@ -166,6 +167,7 @@ module HTML5
 
     def start_element name, attrs = []
       name = normalise_tag_name name
+      dump_text_node
       @stack.push name
       attrs = Hash[*attrs]
       return if name == 'meta' && attrs.key?('http-equiv')
@@ -179,6 +181,7 @@ module HTML5
 
     def end_element name
       name = normalise_tag_name name
+      dump_text_node
       @stack.pop
       buf.rstrip! unless in_pre
       self.in_pre = false if PRE_TAGS.include?(name)
@@ -197,19 +200,7 @@ module HTML5
     end
 
     def characters(chars)
-      chars = CGI.escape_html chars
-      if in_pre
-        buf << chars
-      else
-        chars.gsub!(/[\n\t]/, ' ')
-        if buf =~ %r{</\w+>\s*\Z} and FLOW.any?{|e| @stack.include?(e)}
-          # text node: don't strip
-        else 
-          chars.lstrip!
-          buf.rstrip!
-        end
-        buf << chars.squeeze(' ')
-      end
+      text_node << chars
     end
 
     private
@@ -234,6 +225,26 @@ module HTML5
       # must not be the empty string
       return true if value == ''
       false
+    end
+
+    def format_entities html
+      he = HTMLEntities.new(:expanded)
+      he.encode(he.decode(html), :basic)
+    end
+
+    def format_text_node
+      return text_node if in_pre
+      text = format_entities text_node.gsub(/[\n\t]/,'')
+      # Don't strip inter-element white space for flow elements
+      unless buf =~ %r{</\w+>\s*\Z} and FLOW.any?{|e| @stack.include?(e)}
+        text.lstrip!
+      end
+      text.squeeze(' ')
+    end
+
+    def dump_text_node
+      buf << format_text_node
+      text_node.clear
     end
   end
 end

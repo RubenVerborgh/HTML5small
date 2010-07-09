@@ -16,6 +16,7 @@ end
    dl: "removes optional elements in definition lists",
    normalise_tag_name: "normalises case of element names",
    normalise_attribute_name: "normalises case of attribute names",
+   entities_no_expand: "doesn't decode significant HTML entities",
  }
 
 describe HTML5::Minifier do
