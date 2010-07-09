@@ -17,6 +17,7 @@ end
    normalise_tag_name: "normalises case of element names",
    normalise_attribute_name: "normalises case of attribute names",
    entities_no_expand: "doesn't decode unsafe HTML entities",
+   pre_entities: "doesn't decode unsafe HTML entities in preformatted elements",
    attribute_value_ampersand: "doesn't decode ampersand entity in attribute values",
    attribute_value_quot: "encodes quotation marks in attribute values",
    entities_expand: "decodes safe HTML entities",

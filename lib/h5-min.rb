@@ -98,8 +98,9 @@ module HTML5
     end
 
     def format_text_node
-      return text_node if in_pre
-      text = format_entities text_node.gsub(/[\n\t]/,'')
+      text = format_entities text_node
+      return text if in_pre
+      text.gsub!(/[\n\t]/,'')
       # Don't strip inter-element white space for flow elements
       unless buf =~ %r{</\w+>\s*\Z} and in_flow_element?
         text.lstrip!
