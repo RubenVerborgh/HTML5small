@@ -169,14 +169,8 @@ module HTML5
       name = normalise_tag_name name
       dump_text_node
       @stack.push name
-      attrs = Hash[*attrs]
-      return if name == 'meta' && attrs.key?('http-equiv')
-      # Will fail for empty attributes
-      attrs = attrs.map do |name, value|
-        [normalise_attribute_name(name), format_attribute_value(value)].join ?=
-      end
       self.in_pre = true if PRE_TAGS.include?(name)
-      buf << "<#{name}" + (attrs.empty? ? '' : ' ' + attrs.join(' ')) + ">"
+      buf << "<#{name}" + format_attributes(attrs) + ">"
     end
 
     def end_element name
@@ -213,6 +207,19 @@ module HTML5
       name.downcase.to_sym
     end
 
+    def format_attributes attrs
+      return '' if attrs.empty?
+      Hash[*attrs].map do |name, value|
+        [normalise_attribute_name(name), format_attribute_value(value)]
+      end.sort_by do |name, value|
+        name
+      end.map do |name, value|
+        "#{name}=#{value}"
+      end.join(' ').insert(0, ' ')
+
+      #return if name == 'meta' && attrs.key?('http-equiv')
+    end
+
     def normalise_tag_name tag
       tag.downcase.to_sym
     end
@@ -246,5 +253,6 @@ module HTML5
       buf << format_text_node
       text_node.clear
     end
+
   end
 end
