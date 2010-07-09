@@ -35,7 +35,7 @@ module HTML5
 
     # HTML5 documents begin with the doctype
     def start_document
-      buf << "<!DOCTYPE html>"
+      buf << "<!doctype html>"
     end
 
     def start_element name, attrs = []
