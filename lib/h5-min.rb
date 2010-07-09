@@ -18,10 +18,9 @@ module HTML5
 
   @minifier ||= Class.new(Nokogiri::XML::SAX::Document) do
 
-    attr_accessor :in_pre, :buf, :text_node, :entities
+    attr_accessor :buf, :text_node, :entities
 
     def initialize
-      @in_pre = false
       @buf, @text_node = '', ''
       @stack = []
       @entities = HTMLEntities.new :expanded
@@ -36,16 +35,14 @@ module HTML5
       name = normalise_name name
       dump_text_node
       @stack.push name
-      self.in_pre = true if PRE_TAGS.include?(name)
       buf << "<#{name}" + format_attributes(attrs) + ">"
     end
 
     def end_element name
       name = normalise_name name
       dump_text_node
+      buf.rstrip! unless in_pre_element?
       @stack.pop
-      buf.rstrip! unless in_pre
-      self.in_pre = PRE_TAGS.include?(name)
       buf << "</#{name}>"
     end
 
@@ -99,7 +96,7 @@ module HTML5
 
     def format_text_node
       text = format_entities text_node
-      return text if in_pre
+      return text if in_pre_element?
       text.gsub!(/[\n\t]/,'')
       # Don't strip inter-element white space for flow elements
       unless buf =~ %r{</\w+>\s*\Z} and in_flow_element?
@@ -110,6 +107,10 @@ module HTML5
 
     def in_flow_element?
       not (FLOW_ELEMENTS & @stack).empty?
+    end
+
+    def in_pre_element?
+      not (PRE_TAGS & @stack).empty?
     end
 
     def dump_text_node
