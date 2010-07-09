@@ -12,6 +12,8 @@ end
    whitespace_complex: "collpases complex whitespace inside <p> tags",
    lists: "collpases whitespace inside lists",
    ie: "doesn't remove I.E conditional comments",
+   table: "removes optional elements in tables",
+   dl: "removes optional elements in definition lists",
  }
 
 describe HTML5::Minifier do
