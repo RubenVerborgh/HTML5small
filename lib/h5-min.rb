@@ -9,7 +9,7 @@ module HTML5
     OMIT_TAGS = [:html, :body, :head]
 
     # Elements whose end tags are implied, thus can be omitted
-    OMIT_END_TAGS = [:link, :meta, :img, :br]
+    OMIT_END_TAGS = [:link, :meta, :img, :br, :li, :dt, :dd]
 
     # Elements in which whitespace is significant, so can't be normalised
     PRE_TAGS = [:pre]
