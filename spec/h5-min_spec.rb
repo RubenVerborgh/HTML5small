@@ -14,6 +14,7 @@ end
    ie: "doesn't remove I.E conditional comments",
    table: "removes optional elements in tables",
    dl: "removes optional elements in definition lists",
+   normalise_tag_name: "normalises case of element names",
  }
 
 describe HTML5::Minifier do

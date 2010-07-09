@@ -60,6 +60,7 @@ module HTML5
       # a element.
       %r{</p>\s?(?=(<(address|article|aside|blockquote|dir|div|dl|fieldset|footer|
       form|h\d|header|hgroup|hr|menu|nav|ol|p|pre|section|table|ul)|</))}x,
+      %r{</p>\s?\Z},  
       # An rt element's end tag may be omitted if the rt element is
       # immediately followed by an rt or rp element, or if there is no more
       # content in the parent element.
@@ -164,7 +165,7 @@ module HTML5
     end
 
     def start_element name, attrs = []
-      name = name.to_sym
+      name = normalise_tag_name name
       @stack.push name
       attrs = Hash[*attrs]
       return if name == 'meta' && attrs.key?('http-equiv')
@@ -177,7 +178,7 @@ module HTML5
     end
 
     def end_element name
-      name = name.to_sym
+      name = normalise_tag_name name
       @stack.pop
       buf.rstrip! unless in_pre
       self.in_pre = false if PRE_TAGS.include?(name)
@@ -215,6 +216,10 @@ module HTML5
     def format_attribute_value(value)
       value = value.gsub(/"/, '&quot;')
       value_needs_quoting?(value) ? %Q{"#{value}"} : value
+    end
+
+    def normalise_tag_name tag
+      tag.downcase.to_sym
     end
 
     def value_needs_quoting?(value)
