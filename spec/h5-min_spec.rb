@@ -5,34 +5,20 @@ def minify(source)
   [HTML5::Minifier.minify(File.read source), File.read(source + '.min').chomp]
 end
 
+ SPECS = {
+   skeleton: "can minify a skeleton HTML document",
+   pre: "doesn't collpase whitespace inside <pre> tags",
+   whitespace_p: "collpases whitespace inside <p> tags",
+   whitespace_complex: "collpases complex whitespace inside <p> tags",
+   lists: "collpases whitespace inside lists",
+   ie: "doesn't remove I.E conditional comments",
+ }
+
 describe HTML5::Minifier do
-  it "can minify a skeleton HTML document" do
-    source, target = minify('skeleton.html')
-    source.to_s.should == target
-  end
-
-  it "doesn't collpase whitespace inside <pre> tags" do
-    source, target = minify('pre.html')
-    source.to_s.should == target
-  end
-
-  it "collpases whitespace inside <p> tags" do
-    source, target = minify('whitespace-p.html')
-    source.to_s.should == target
-  end
-
-  it "collpases complex whitespace inside <p> tags" do
-    source, target = minify('whitespace-complex.html')
-    source.to_s.should == target
-  end
-
-  it "collpases whitespace inside lists" do
-    source, target = minify('lists.html')
-    source.to_s.should == target
-  end
-
-  it "doesn't remove I.E conditional comments" do
-    source, target = minify('ie.html')
-    source.to_s.should == target
+  SPECS.each do |fix, desc|
+    it desc do
+      source, target = minify("#{fix.to_s.tr(?_, ?-)}.html")
+      source.to_s.should == target
+    end
   end
 end
