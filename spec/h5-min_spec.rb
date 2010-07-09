@@ -16,6 +16,21 @@ describe HTML5::Minifier do
     source.to_s.should == target
   end
 
+  it "collpases whitespace inside <p> tags" do
+    source, target = minify('whitespace-p.html')
+    source.to_s.should == target
+  end
+
+  it "collpases complex whitespace inside <p> tags" do
+    source, target = minify('whitespace-complex.html')
+    source.to_s.should == target
+  end
+
+  it "collpases whitespace inside lists" do
+    source, target = minify('lists.html')
+    source.to_s.should == target
+  end
+
   it "doesn't remove I.E conditional comments" do
     source, target = minify('ie.html')
     source.to_s.should == target
