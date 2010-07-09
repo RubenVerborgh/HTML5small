@@ -3,26 +3,20 @@ require 'htmlentities'
 require_relative 'h5-min/optional'
 
 module HTML5
-  class Minifier < Nokogiri::XML::SAX::Document
+  # Elements in which whitespace is significant, so can't be normalised
+  PRE_TAGS = [:pre, :style, :script, :textarea]
+  
+  # Elements representing flow content
+  FLOW_ELEMENTS = %w{a abbr address area article aside audio b bdo blockquote br 
+                     button canvas cite code command datalist del details dfn div 
+                     dl em embed fieldset figure footer form h1 h2 h3 h4 h5 h6 header 
+                     hgroup hr i iframe img input ins kbd keygen label link
+                     map mark math menu meta meter nav noscript object ol output 
+                     p pre progress q ruby samp script section select small span 
+                     strong style sub sup svg table textarea time ul var video wbr
+                    }.map(&:to_sym)
 
-    # Elements in which whitespace is significant, so can't be normalised
-    PRE_TAGS = [:pre]
-    
-    # Elements representing flow content
-    FLOW = %w{a abbr address area article aside audio b bdo blockquote br 
-              button canvas cite code command datalist del details dfn div 
-              dl em embed fieldset figure footer form h1 h2 h3 h4 h5 h6 header 
-              hgroup hr i iframe img input ins kbd keygen label link
-              map mark math menu meta meter nav noscript object ol output 
-              p pre progress q ruby samp script section select small span 
-              strong style sub sup svg table textarea time ul var video wbr
-             }.map(&:to_sym)
-
-    def self.minify html
-      minifier = new
-      Nokogiri::HTML::SAX::Parser.new(minifier).parse(html)
-      OptionalTags.remove minifier.buf.strip
-    end
+  @minifier ||= Class.new(Nokogiri::XML::SAX::Document) do
 
     attr_accessor :in_pre, :buf, :text_node, :entities
 
@@ -107,15 +101,25 @@ module HTML5
       return text_node if in_pre
       text = format_entities text_node.gsub(/[\n\t]/,'')
       # Don't strip inter-element white space for flow elements
-      unless buf =~ %r{</\w+>\s*\Z} and FLOW.any?{|e| @stack.include?(e)}
+      unless buf =~ %r{</\w+>\s*\Z} and in_flow_element?
         text.lstrip!
       end
       text.squeeze(' ')
+    end
+
+    def in_flow_element?
+      not (FLOW_ELEMENTS & @stack).empty?
     end
 
     def dump_text_node
       buf << format_text_node
       text_node.clear
     end
+  end
+
+  def self.minify html
+    minifier = @minifier.new
+    Nokogiri::HTML::SAX::Parser.new(minifier).parse(html)
+    OptionalTags.remove minifier.buf.strip
   end
 end

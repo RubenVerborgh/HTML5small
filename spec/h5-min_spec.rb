@@ -2,7 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 def minify(source)
   source = 'fixtures/' + source
-  [HTML5::Minifier.minify(File.read source), File.read(source + '.min').chomp]
+  [HTML5.minify(File.read source), File.read(source + '.min').chomp]
 end
 
  SPECS = {
@@ -23,7 +23,7 @@ end
    sort_attributes: "sorts attribute names alphabetically",
  }
 
-describe HTML5::Minifier do
+describe HTML5, '.minify' do
   SPECS.each do |fix, desc|
     it desc do
       source, target = minify("#{fix.to_s.tr(?_, ?-)}.html")
