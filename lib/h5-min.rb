@@ -90,12 +90,14 @@ module HTML5
       value =~ /[[:space:]"'><=`]/ or value.empty?
     end
 
-    def format_entities html
-      entities.encode(entities.decode(html), :basic)
+    def format_entities html, except={}
+      html = entities.encode(entities.decode(html), :basic)
+      except.each{|name, replace| html.gsub!(/&#{name};/, replace)}
+      html
     end
 
     def format_text_node
-      text = format_entities text_node
+      text = format_entities text_node, {quot: ?", apos: ?'}
       return text if in_pre_element?
       text.gsub!(/[\n\t]/,'')
       # Don't strip inter-element white space for flow elements

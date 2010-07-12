@@ -22,6 +22,7 @@ end
    attribute_value_quot: "encodes quotation marks in attribute values",
    entities_expand: "decodes safe HTML entities",
    sort_attributes: "sorts attribute names alphabetically",
+   quot_entity: "expands &quot; entity in text nodes",
  }
 
 describe HTML5, '.minify' do
