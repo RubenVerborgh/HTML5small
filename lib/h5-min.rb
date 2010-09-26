@@ -1,5 +1,6 @@
 require 'nokogiri'
 require 'htmlentities'
+require 'tempfile'
 require_relative 'h5-min/optional'
 
 module HTML5
@@ -54,7 +55,7 @@ module HTML5
     end
 
     def cdata_block string
-      buf << string
+      text_node << string
     end
 
     def characters chars
@@ -97,6 +98,7 @@ module HTML5
     end
 
     def format_text_node
+      return HTML5.minify_css(text_node) if @stack.last == :style
       text = format_entities text_node, {quot: ?", apos: ?'}
       return text if in_pre_element?
       text.gsub!(/[\n\t]/,'')
@@ -119,6 +121,19 @@ module HTML5
       buf << format_text_node
       text_node.clear
     end
+  end
+
+  def self.minify_css text
+    Tempfile.open('css') do |input|
+      input << text
+      input.close
+      return begin
+               `yuicompressor --type css --charset utf-8 #{input.to_path}`
+             rescue Errno::ENOENT
+               warn "yuicompressor not found; won't minify CSS"
+               text
+             end
+    end  
   end
 
   def self.minify html
