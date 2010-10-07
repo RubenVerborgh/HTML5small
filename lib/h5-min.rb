@@ -17,6 +17,31 @@ module HTML5
                      strong style sub sup svg table textarea time ul var video wbr
                     }.map(&:to_sym)
 
+  BOOL_ATTR = {
+    _: [:itemscope, :hidden],
+    audio: [:loop, :autoplay, :controls],
+    button: [:formnovalidate, :disabled, :autofocus],
+    command: [:disabled, :checked],
+    details: [:open],
+    fieldset: [:disabled],
+    form: [:novalidate],
+    iframe: [:seamless],
+    img: [:ismap],
+    input: [:autocomplete, :autofocus, :defaultchecked, 
+            :checked, :disabled, :formnovalidate, :indeterminate,
+            :multiple, :readonly, :required],
+    keygen: [:disabled, :autofocus],
+    optgroup: [:disabled],
+    option: [:disabled, :defaultselected, :selected],
+    ol: [:reversed],
+    select: [:autofocus, :disabled, :multiple],
+    script: [:async, :defer],
+    style: [:scoped],
+    textarea: [:autofocus, :disabled, :readonly, :required],
+    time: [:pubdate],
+    video: [:loop, :autoplay, :controls],
+  }
+
   @minifier ||= Class.new(Nokogiri::XML::SAX::Document) do
 
     attr_accessor :buf, :text_node, :entities
@@ -36,7 +61,7 @@ module HTML5
       name = normalise_name name
       dump_text_node
       @stack.push name
-      buf << "<#{name}" + format_attributes(attrs) + ">"
+      buf << "<#{name}" + format_attributes(attrs, name) + ">"
     end
 
     def end_element name
@@ -72,14 +97,18 @@ module HTML5
       name.downcase.to_sym
     end
 
-    def format_attributes attrs
+    def format_attributes attrs, element
       return '' if attrs.empty?
       Hash[*attrs].map do |name, value|
         [normalise_name(name), format_attribute_value(value)]
       end.sort_by do |name, value|
         name
       end.map do |name, value|
-        "#{name}=#{value}"
+        if boolean_attribute?(element, name)
+          name.to_s
+        else
+          "#{name}=#{value}"
+        end
       end.join(' ').insert(0, ' ')
     end
     
@@ -91,6 +120,12 @@ module HTML5
       value =~ /[[:space:]"'><=`]/ or value.empty?
     end
 
+    def boolean_attribute? element, attribute
+      e, a = [element, attribute].map(&:to_sym)
+      BOOL_ATTR[:_].include?(a) or  
+        (BOOL_ATTR.key?(e) and BOOL_ATTR[e].include?(a))
+    end
+    
     def format_entities html, except={}
       html = entities.encode(entities.decode(html), :basic)
       except.each{|name, replace| html.gsub!(/&#{name};/, replace)}
