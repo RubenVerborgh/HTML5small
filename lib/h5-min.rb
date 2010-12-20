@@ -163,7 +163,7 @@ module HTML5
       input << text
       input.close
       return begin
-               `yuicompressor --type css --charset utf-8 #{input.to_path}`
+               `yui-compressor --type css --charset utf-8 #{input.to_path}`
              rescue Errno::ENOENT
                warn "yuicompressor not found; won't minify CSS"
                text
