@@ -23,6 +23,8 @@ end
    entities_expand: "decodes safe HTML entities",
    sort_attributes: "sorts attribute names alphabetically",
    quot_entity: "expands &quot; entity in text nodes",
+   newlines: "should treat newlines in text as a space",
+   tabs: "should treat tabs in text as a space",
  }
 
 describe HTML5, '.minify' do

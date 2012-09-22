@@ -136,7 +136,7 @@ module HTML5
       return HTML5.minify_css(text_node) if @stack.last == :style
       text = format_entities text_node, {quot: ?", apos: ?'}
       return text if in_pre_element?
-      text.gsub!(/[\n\t]/,'')
+      text.gsub!(/[\n\t]/,' ')
       # Don't strip inter-element white space for flow elements
       unless buf =~ %r{</\w+>\s*\Z} and in_flow_element?
         text.lstrip!
