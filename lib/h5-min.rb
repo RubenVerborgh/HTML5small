@@ -99,7 +99,7 @@ module HTML5
 
     def format_attributes attrs, element
       return '' if attrs.empty?
-      Hash[*attrs].map do |name, value|
+      Hash[attrs].map do |name, value|
         [normalise_name(name), format_attribute_value(value)]
       end.sort_by do |name, value|
         name
