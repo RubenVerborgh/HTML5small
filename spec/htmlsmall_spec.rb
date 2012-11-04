@@ -26,6 +26,7 @@ end
    newlines: "should treat newlines in text as a space",
    tabs: "should treat tabs in text as a space",
    empty_attributes: "should use the empty attribute syntax when appropriate",
+   scripts: "should not escape entities inside scripts",
  }
 
 describe HTML5, '.minify' do

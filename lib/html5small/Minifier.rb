@@ -96,13 +96,19 @@ module HTML5
     end
 
     def format_text_node
+      # Don't escape script contents
+      return text_node if in_script_element?
+      # Escape entities inside the text node
       text = format_entities text_node, {quot: ?", apos: ?'}
+      # Don't remove white space in elements with non-HTML content
       return text if in_pre_element?
-      text.gsub!(/[\n\t]/,' ')
+      # Treat all whitespace as spaces
+      text.gsub!(/[\n\t]/, ' ')
       # Don't strip inter-element white space for flow elements
       unless buf =~ %r{</\w+>\s*\Z} and in_flow_element?
         text.lstrip!
       end
+      # Normalize spaces
       text.squeeze(' ')
     end
 
@@ -112,6 +118,10 @@ module HTML5
 
     def in_pre_element?
       not (PRE_TAGS & @stack).empty?
+    end
+
+    def in_script_element?
+      @stack.include? :script
     end
 
     def dump_text_node
