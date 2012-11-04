@@ -43,11 +43,11 @@ module HTML5
       # a element.
       %r{</p>\s?(?=(<(address|article|aside|blockquote|dir|div|dl|fieldset|footer|
       form|h\d|header|hgroup|hr|menu|nav|ol|p|pre|section|table|ul)|</))}x,
-      %r{</p>\s?\Z},  
+      %r{</p>\s?\Z},
       # An rt element's end tag may be omitted if the rt element is
       # immediately followed by an rt or rp element, or if there is no more
       # content in the parent element.
-      %r{</rt>\s?(?=(<r[tp]|</))}, 
+      %r{</rt>\s?(?=(<r[tp]|</))},
       # An rp element's end tag may be omitted if the rp element is
       # immediately followed by an rt or rp element, or if there is no more
       # content in the parent element.
@@ -106,21 +106,21 @@ module HTML5
       # The following are void elements
       # (http://www.whatwg.org/specs/web-apps/current-work/multipage/syntax.html#void-elements)
       # Therefore, their end tag must always be omitted
-      %r{</area}, 
-      %r{</base>}, 
-      %r{</br>}, 
-      %r{</col>}, 
-      %r{</command>}, 
-      %r{</embed>}, 
-      %r{</hr>}, 
-      %r{</img>}, 
-      %r{</input>}, 
-      %r{</keygen>}, 
-      %r{</link>}, 
-      %r{</meta>}, 
-      %r{</param>}, 
-      %r{</source>}, 
-      %r{</track>}, 
+      %r{</area},
+      %r{</base>},
+      %r{</br>},
+      %r{</col>},
+      %r{</command>},
+      %r{</embed>},
+      %r{</hr>},
+      %r{</img>},
+      %r{</input>},
+      %r{</keygen>},
+      %r{</link>},
+      %r{</meta>},
+      %r{</param>},
+      %r{</source>},
+      %r{</track>},
       %r{</wbr>},
     ]
 

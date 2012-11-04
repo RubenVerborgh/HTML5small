@@ -6,14 +6,14 @@ require_relative 'html5small/optional'
 module HTML5
   # Elements in which whitespace is significant, so can't be normalised
   PRE_TAGS = [:pre, :style, :script, :textarea]
-  
+
   # Elements representing flow content
-  FLOW_ELEMENTS = %w{a abbr address area article aside audio b bdo blockquote br 
-                     button canvas cite code command datalist del details dfn div 
-                     dl em embed fieldset figure footer form h1 h2 h3 h4 h5 h6 header 
+  FLOW_ELEMENTS = %w{a abbr address area article aside audio b bdo blockquote br
+                     button canvas cite code command datalist del details dfn div
+                     dl em embed fieldset figure footer form h1 h2 h3 h4 h5 h6 header
                      hgroup hr i iframe img input ins kbd keygen label link
-                     map mark math menu meta meter nav noscript object ol output 
-                     p pre progress q ruby samp script section select small span 
+                     map mark math menu meta meter nav noscript object ol output
+                     p pre progress q ruby samp script section select small span
                      strong style sub sup svg table textarea time ul var video wbr
                     }.map(&:to_sym)
 
@@ -27,7 +27,7 @@ module HTML5
     form: [:novalidate],
     iframe: [:seamless],
     img: [:ismap],
-    input: [:autocomplete, :autofocus, :defaultchecked, 
+    input: [:autocomplete, :autofocus, :defaultchecked,
             :checked, :disabled, :formnovalidate, :indeterminate,
             :multiple, :readonly, :required],
     keygen: [:disabled, :autofocus],
@@ -111,7 +111,7 @@ module HTML5
         end
       end.join(' ').insert(0, ' ')
     end
-    
+
     # Can the given value be legally unquoted as per
     # http://www.whatwg.org/specs/web-apps/current-work/multipage/syntax.html#attributes-0
     # ?
@@ -122,10 +122,10 @@ module HTML5
 
     def boolean_attribute? element, attribute
       e, a = [element, attribute].map(&:to_sym)
-      BOOL_ATTR[:_].include?(a) or  
+      BOOL_ATTR[:_].include?(a) or
         (BOOL_ATTR.key?(e) and BOOL_ATTR[e].include?(a))
     end
-    
+
     def format_entities html, except={}
       html = entities.encode(entities.decode(html), :basic)
       except.each{|name, replace| html.gsub!(/&#{name};/, replace)}
@@ -168,7 +168,7 @@ module HTML5
                warn "yuicompressor not found; won't minify CSS"
                text
              end
-    end  
+    end
   end
 
   def self.minify html
