@@ -20,7 +20,8 @@ module HTML5
       # if the first thing inside the body element is not a space character or
       # a comment, except if the first thing inside the body element is a
       # script or style element.
-      %r{<body>\s?(?!<(script|style))},
+      # Unfortunately, this can confuse older IE browsers.
+      # %r{<body>\s?(?!<(script|style))},
       # A body element's end tag may be omitted if the body element is not
       # immediately followed by a comment.
       %r{</body>},
