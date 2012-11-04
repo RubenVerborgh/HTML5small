@@ -4,17 +4,16 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "h5-min"
-    gem.summary = %Q{Minify HTML5}
-    gem.description = %Q{Trivial command-line minifier for HTML5 markup}
-    gem.email = "runrun@runpaint.org"
-    gem.homepage = "http://github.com/runpaint/h5-min"
-    gem.authors = ["Run Paint Run Run"]
+    gem.name = "html5small"
+    gem.summary = %Q{HTML5small}
+    gem.description = %Q{Minifier for HTML5 documents}
+    gem.email = "ruben.verborgh@gmail.com"
+    gem.homepage = "http://github.com/RubenVerborgh/HTML5small"
+    gem.authors = ["Run Paint Run Run", "Ruben Verborgh"]
     gem.add_dependency "htmlentities", ">= 4.1.0"
     gem.add_development_dependency "rspec", ">= 1.2.9"
     gem.add_development_dependency "yard", ">= 0"
-    gem.executables << 'h5-min'
-    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
+    gem.executables << 'html5small'
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError

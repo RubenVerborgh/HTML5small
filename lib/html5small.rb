@@ -1,7 +1,7 @@
 require 'nokogiri'
 require 'htmlentities'
 require 'tempfile'
-require_relative 'h5-min/optional'
+require_relative 'html5small/optional'
 
 module HTML5
   # Elements in which whitespace is significant, so can't be normalised
