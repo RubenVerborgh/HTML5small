@@ -16,31 +16,6 @@ module HTML5
                        strong style sub sup svg table textarea time ul var video wbr
                       }.map(&:to_sym)
 
-    BOOL_ATTR = {
-      _: [:itemscope, :hidden],
-      audio: [:loop, :autoplay, :controls],
-      button: [:formnovalidate, :disabled, :autofocus],
-      command: [:disabled, :checked],
-      details: [:open],
-      fieldset: [:disabled],
-      form: [:novalidate],
-      iframe: [:seamless],
-      img: [:ismap],
-      input: [:autocomplete, :autofocus, :defaultchecked,
-              :checked, :disabled, :formnovalidate, :indeterminate,
-              :multiple, :readonly, :required],
-      keygen: [:disabled, :autofocus],
-      optgroup: [:disabled],
-      option: [:disabled, :defaultselected, :selected],
-      ol: [:reversed],
-      select: [:autofocus, :disabled, :multiple],
-      script: [:async, :defer],
-      style: [:scoped],
-      textarea: [:autofocus, :disabled, :readonly, :required],
-      time: [:pubdate],
-      video: [:loop, :autoplay, :controls],
-    }
-
     attr_accessor :buf, :text_node, :entities
 
     def initialize
@@ -101,11 +76,8 @@ module HTML5
       end.sort_by do |name, value|
         name
       end.map do |name, value|
-        if boolean_attribute?(element, name)
-          name.to_s
-        else
-          "#{name}=#{value}"
-        end
+        # Empty values can use the empty attribute syntax
+        value.empty? ? name.to_s : "#{name}=#{value}"
       end.join(' ').insert(0, ' ')
     end
 
@@ -114,13 +86,7 @@ module HTML5
     # ?
     def value_needs_quoting? value
       # must not contain any " ", """, "'", ">", or "=", characters
-      value =~ /[[:space:]"'><=`]/ or value.empty?
-    end
-
-    def boolean_attribute? element, attribute
-      e, a = [element, attribute].map(&:to_sym)
-      BOOL_ATTR[:_].include?(a) or
-        (BOOL_ATTR.key?(e) and BOOL_ATTR[e].include?(a))
+      value =~ /[[:space:]"'><=`]/
     end
 
     def format_entities html, except={}
