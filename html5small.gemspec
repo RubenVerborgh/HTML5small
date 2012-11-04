@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "html5small"
-  s.version = "0.0.1"
+  s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Run Paint Run Run", "Ruben Verborgh"]
@@ -30,6 +30,8 @@ Gem::Specification.new do |s|
     "fixtures/attribute-value-quot.html.min",
     "fixtures/dl.html",
     "fixtures/dl.html.min",
+    "fixtures/empty-attributes.html",
+    "fixtures/empty-attributes.html.min",
     "fixtures/entities-expand.html",
     "fixtures/entities-expand.html.min",
     "fixtures/entities-no-expand.html",
@@ -50,6 +52,8 @@ Gem::Specification.new do |s|
     "fixtures/pre.html.min",
     "fixtures/quot-entity.html",
     "fixtures/quot-entity.html.min",
+    "fixtures/scripts.html",
+    "fixtures/scripts.html.min",
     "fixtures/skeleton.html",
     "fixtures/skeleton.html.min",
     "fixtures/sort-attributes.html",
@@ -62,10 +66,11 @@ Gem::Specification.new do |s|
     "fixtures/whitespace-complex.html.min",
     "fixtures/whitespace-p.html",
     "fixtures/whitespace-p.html.min",
+    "html5small.gemspec",
     "lib/html5small.rb",
     "lib/html5small/Minifier.rb",
-    "lib/html5small/optional.rb",
-    "spec/h5-min_spec.rb",
+    "lib/html5small/OptionalTags.rb",
+    "spec/htmlsmall_spec.rb",
     "spec/spec.opts",
     "spec/spec_helper.rb"
   ]
