@@ -11,7 +11,8 @@ begin
     gem.homepage = "http://github.com/RubenVerborgh/HTML5small"
     gem.authors = ["Run Paint Run Run", "Ruben Verborgh"]
     gem.add_dependency "htmlentities", ">= 4.1.0"
-    gem.add_development_dependency "rspec", ">= 1.2.9"
+    gem.add_dependency "nokogiri", ">= 1.5.0"
+    gem.add_development_dependency "rspec", ">= 2.0.0"
     gem.add_development_dependency "yard", ">= 0"
     gem.executables << 'html5small'
   end
