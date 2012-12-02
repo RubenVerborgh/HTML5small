@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "html5small"
-  s.version = "0.1.0"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Run Paint Run Run", "Ruben Verborgh"]
-  s.date = "2012-11-04"
+  s.date = "2012-12-02"
   s.description = "Minifier for HTML5 documents"
   s.email = "ruben.verborgh@gmail.com"
   s.executables = ["html5small", "html5small"]
@@ -68,8 +68,9 @@ Gem::Specification.new do |s|
     "fixtures/whitespace-p.html.min",
     "html5small.gemspec",
     "lib/html5small.rb",
-    "lib/html5small/Minifier.rb",
-    "lib/html5small/OptionalTags.rb",
+    "lib/html5small/minifier.rb",
+    "lib/html5small/nanoc.rb",
+    "lib/html5small/optional_tags.rb",
     "spec/htmlsmall_spec.rb",
     "spec/spec.opts",
     "spec/spec_helper.rb"
