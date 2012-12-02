@@ -1,3 +1,3 @@
 #!/usr/bin/env ruby
 require_relative '../lib/html5small'
-print HTML5.minify ARGF.read
+print HTML5small.minify ARGF.read

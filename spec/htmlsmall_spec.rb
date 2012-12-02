@@ -2,7 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 def minify(source)
   source = 'fixtures/' + source
-  [HTML5.minify(File.read source), File.read(source + '.min').chomp]
+  [HTML5small.minify(File.read source), File.read(source + '.min').chomp]
 end
 
  SPECS = {
@@ -29,7 +29,7 @@ end
    scripts: "should not escape entities inside scripts",
  }
 
-describe HTML5, '.minify' do
+describe HTML5small, '.minify' do
   SPECS.each do |fix, desc|
     it desc do
       source, target = minify("#{fix.to_s.tr(?_, ?-)}.html")

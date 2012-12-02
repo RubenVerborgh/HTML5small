@@ -1,5 +1,5 @@
 # coding: utf-8
-module HTML5
+module HTML5small
   module OptionalTags
     # Optional tags as per
     # http://www.whatwg.org/specs/web-apps/current-work/multipage/syntax.html#optional-tags

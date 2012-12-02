@@ -1,7 +1,7 @@
 require 'nokogiri'
 require 'htmlentities'
 
-module HTML5
+module HTML5small
   class Minifier < Nokogiri::XML::SAX::Document
     # Elements in which whitespace is significant, so can't be normalised
     PRE_TAGS = [:pre, :style, :script, :textarea]
