@@ -1,5 +1,5 @@
-require_relative 'html5small/Minifier'
-require_relative 'html5small/OptionalTags'
+require_relative 'html5small/minifier'
+require_relative 'html5small/optional_tags'
 
 module HTML5small
   def self.minify html
