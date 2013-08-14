@@ -18,7 +18,7 @@ require 'html5small'
 
 ### As a nanoc filter
 HTML5small can also be used as a [nanoc](http://nanoc.stoneship.org/) [filter](http://nanoc.stoneship.org/docs/4-basic-concepts/#filters).
-This will lead to even faster loading if your compiled sites.
+This will lead to even faster loading of your compiled sites.
 
 To use the HTML5small filter, add this line to your `lib/helpers.rb`:
 ```ruby
