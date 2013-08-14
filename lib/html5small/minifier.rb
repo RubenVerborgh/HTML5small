@@ -16,11 +16,17 @@ module HTML5small
                        strong style sub sup svg table textarea time ul var video wbr
                       }.map(&:to_sym)
 
+    # BLock-level elements
+    BLOCK_ELEMENTS = %w{address article aside audio blockquote canvas dd div dl fieldset
+                        figcaption figure footer form h1 h2 h3 h4 h5 h6 header hgroup hr
+                        li noscript ol output p pre section table thead tfoot tr ul video
+                       }.map(&:to_sym)
+
     attr_accessor :buf, :text_node, :entities
 
     def initialize
       @buf, @text_node = '', ''
-      @stack = []
+      @stack = [], @prev_tag
       @entities = HTMLEntities.new :expanded
     end
 
@@ -33,14 +39,17 @@ module HTML5small
       name = normalise_name name
       dump_text_node
       @stack.push name
+      @prev_tag = name
+      buf.rstrip! if is_block_element?(name) and not in_pre_element?
       buf << "<#{name}" + format_attributes(attrs, name) + ">"
     end
 
     def end_element name
       name = normalise_name name
       dump_text_node
-      buf.rstrip! unless in_pre_element?
+      buf.rstrip! if is_block_element?(name) and not in_pre_element?
       @stack.pop
+      @prev_tag = name
       buf << "</#{name}>"
     end
 
@@ -104,10 +113,8 @@ module HTML5small
       return text if in_pre_element?
       # Treat all whitespace as spaces
       text.gsub!(/[\n\t]/, ' ')
-      # Don't strip inter-element white space for flow elements
-      unless buf =~ %r{</\w+>\s*\Z} and in_flow_element?
-        text.lstrip!
-      end
+      # Strip leading whitespace at the beginning of block elements
+      text.lstrip! if @prev_tag == @stack.last and is_block_element?(@prev_tag)
       # Normalize spaces
       text.squeeze(' ')
     end
@@ -122,6 +129,10 @@ module HTML5small
 
     def in_script_element?
       @stack.include? :script
+    end
+
+    def is_block_element? name
+      BLOCK_ELEMENTS.include? name
     end
 
     def dump_text_node
