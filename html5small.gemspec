@@ -79,6 +79,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.rubygems_version = "1.8.23"
   s.summary = "HTML5small"
+  s.license = "GPL-3"
 
   if s.respond_to? :specification_version then
     s.specification_version = 3
