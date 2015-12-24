@@ -8,9 +8,9 @@ end
  SPECS = {
    skeleton: "can minify a skeleton HTML document",
    pre: "doesn't collpase whitespace inside <pre> tags",
-   whitespace_p: "collpases whitespace inside <p> tags",
-   whitespace_complex: "collpases complex whitespace inside <p> tags",
-   lists: "collpases whitespace inside lists",
+   whitespace_p: "collapses whitespace inside <p> tags",
+   whitespace_complex: "collapses complex whitespace inside <p> tags",
+   lists: "collapses whitespace inside lists",
    ie: "doesn't remove I.E conditional comments",
    table: "removes optional elements in tables",
    dl: "removes optional elements in definition lists",

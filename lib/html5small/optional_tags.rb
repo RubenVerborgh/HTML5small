@@ -39,11 +39,10 @@ module HTML5small
       # A p element's end tag may be omitted if the p element is immediately
       # followed by an address, article, aside, blockquote, dir, div, dl,
       # fieldset, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, hr,
-      # menu, nav, ol, p, pre, section, table, or ul, element, or if there is
-      # no more content in the parent element and the parent element is not an
-      # a element.
+      # menu, nav, ol, p, pre, section, table, or ul, element,
+      # or if the next element is also a p element.
       %r{</p>\s?(?=(<(address|article|aside|blockquote|dir|div|dl|fieldset|footer|
-      form|h\d|header|hgroup|hr|menu|nav|ol|p|pre|section|table|ul)|</))}x,
+      form|h\d|header|hgroup|hr|menu|nav|ol|p|pre|section|table|ul)|</p)\W)}x,
       %r{</p>\s?\Z},
       # An rt element's end tag may be omitted if the rt element is
       # immediately followed by an rt or rp element, or if there is no more
